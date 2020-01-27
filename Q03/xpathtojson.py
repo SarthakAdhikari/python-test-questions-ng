@@ -71,5 +71,5 @@ def populate_JSON(Node, result_json):
 
 populate_JSON(tree_root, result_json=result_json)
 
-result_json = json.dumps(result_json["root"])
+result_json = json.dumps(result_json["root"], indent=4)
 print(f"The resulting JSON is:\n{result_json}))")
