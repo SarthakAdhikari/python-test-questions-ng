@@ -4,7 +4,7 @@ A simple implementation of server side rendering of Datatables using the Flask M
 
 #### Installation instructions:
 ```sh
-$ git clone <repo-link>
+$ git clone https://github.com/SarthakAdhikari/python-test-questions-ng.git
 $ cd Q02
 $ pip install - r requirements.txt
 $ export FLASK_APP=app.py
