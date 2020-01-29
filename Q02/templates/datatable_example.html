@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<body>
+
+<!-- Header -->
+<header class="w3-container w3-theme w3-padding" id="myHeader">
+    <div class="w3-center">
+        <h4>Datatables Server Side Example with Flask</h4>
+        <h1 class="w3-xxxlarge w3-animate-bottom">BUILT WITH FLASK and DATATABLES</h1>
+    </div>
+</header>
+
+<div class="w3-margin-top w3-padding">
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Position</th>
+            <th>Location</th>
+            <th>Extension</th>
+            <th>Start Date</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr></tr>
+        <tr></tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    $("#example").DataTable({
+        processing: true,
+        serverSide: true,
+        bFilter: false,
+        bInfo: false,
+        ajax: {
+            url: '{{api}}',
+            type: 'POST',
+            dataSrc: 'data',
+            data: function (args) {
+                return {"args": JSON.stringify(args)};
+            }
+
+        },
+        aoColumns: [
+            {
+                mData: 'first_name',
+                orderable: true,
+                searchable: false
+            },
+            {
+                mData: 'last_name',
+                orderable: true,
+                searchable: false
+
+            },
+            {
+                mData: 'position',
+                orderable: false,
+                searchable: false
+
+            },
+            {
+                mData: 'location',
+                orderable: false,
+                searchable: false
+
+            },
+            {
+                mData: 'extension',
+                searchable: false,
+                orderable: true
+            },
+            {
+                mData: 'start_date',
+                orderable: true,
+                searchable: false
+
+            },
+            {
+                mData: 'salary',
+                searchable: false,
+                orderable: true
+            }
+        ],
+
+    })
+</script>
+
+
+</body>
+</html>
