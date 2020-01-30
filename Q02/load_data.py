@@ -1,10 +1,12 @@
 from datetime import datetime
 
-from sqlalchemy.engine import create_engine
-from sqlalchemy.orm import Session
 
 from .models import UsersModel
+
+
+from sqlalchemy.orm import sessionmaker
 from .config import Config
+from sqlalchemy.engine import create_engine
 
 
 def load_data():
@@ -66,11 +68,12 @@ def load_data():
                     ["Michael Bruce", "Javascript Developer", "Singapore", "5384", "2011/06/27", "$183,000"],
                     ["Donna Snider", "Customer Support", "New York", "4226", "2011/01/25", "$112,000"]]
 
-
-    staged_users = []
     database_uri = Config().SQLALCHEMY_DATABASE_URI
     engine = create_engine(database_uri)
-    sess = Session(bind=engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    staged_users = []
 
     for index, user in enumerate(data_to_load):
         # id = index
@@ -85,7 +88,7 @@ def load_data():
                           extension=extension, start_date=start_date, salary=salary)
         staged_users.append(user)
 
-    sess.add_all(staged_users)
-    sess.commit()
+    session.add_all(staged_users)
+    session.commit()
 
     print("Loading {} rows into users_model table sucessful!".format(len(data_to_load)))

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+          <a class="w3-button  w3-blue-grey w3-margin-top w3-padding" href="{{ url_for('view_userLst') }}"
+           style="width: 30%; border-radius:5%; border: 2px solid black;">Return to Home</a>
+    {% if error %}
+        <div class="w3-row">
+            <div class="w3-col w3-container m2 w3-red"><p>{{ error }}</p></div>
+        </div>
+    {% endif %}
+    <div class="w3-row">
+            <div class="w3-col w3-container success-container m2 w3-hide w3-blue"><p id="success-message"></p></div>
+        </div>
+    {% if user_id %}
+        <div class="w3-row">
+            <div class="w3-col w3-container m2 w3-red"><p>User with ID {{ user_id }} sucessfully created!</p></div>
+        </div>
+    {% endif %}
+    <form action=""
+            method="POST"
+          class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin" id="add-edit-form">
+        {% if edit %}
+            <h2 class="w3-center">Edit User</h2>
+        {% else %}
+            <h2 class="w3-center">Add User</h2>
+        {% endif %}
+
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border" name="first_name" type="text" placeholder="First Name"
+                        {% if edit %} value="{{ first_name }}" {% endif %}>
+            </div>
+        </div>
+
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border" name="last_name" type="text" placeholder="Last Name"
+                        {% if edit %} value="{{ last_name }}" {% endif %}>
+            </div>
+        </div>
+
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-location-arrow"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border" name="location" type="text" placeholder="Location"
+                        {% if edit %} value="{{ location }}" {% endif %}>
+            </div>
+        </div>
+
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-usd"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border" name="salary" type="number" placeholder="Salary"
+                        {% if edit %} value="{{ salary }}" {% endif %}>
+            </div>
+        </div>
+
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-black-tie"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border" name="position" type="text" placeholder="Position"
+                        {% if edit %} value="{{ position }}" {% endif %}>
+            </div>
+        </div>
+
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-calendar "></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border" name="start_date" type="date" placeholder="Start Date"
+                        {% if edit %} value={{ start_date }} {% endif %}>
+            </div>
+        </div>
+
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-sort-numeric-asc"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border" name="extension" type="number" placeholder="Extension"
+                        {% if edit %} value={{ extension }} {% endif %}>
+            </div>
+        </div>
+
+        <p class="w3-center">
+            <button type="submit" id="send-button" class="w3-button w3-section w3-blue w3-ripple"> Send</button>
+        </p>
+    </form>
+
+    <script>
+
+        $("#add-edit-form").submit(function(e){
+        var form = $(this);
+        $.ajax({
+         url   : form.attr('action'),
+         type  : {% if edit %} "PATCH", {% else %} form.attr('method'),{% endif %}
+         data  : form.serialize(), // data to be submitted
+         success: function(response){
+             if (!response.hasOwnProperty("error")) {
+                 $('.success-container').removeClass('w3-hide')
+                 {% if edit %}
+                     $('#success-message').text("User with ID " + response.id + " updated sucessfully.");
+                     {% else %}
+                      $('#success-message').text(response.error);
+                     $('#success-message').text("User with ID " + response.user_id + " created sucessfully.");
+
+                 {% endif %}
+             }
+             else {
+                 $('#success-message').addClass("w3-red").text(response.error)
+             }
+         }
+    });
+    return false;
+ });
+
+    </script>
+
+{% endblock %}

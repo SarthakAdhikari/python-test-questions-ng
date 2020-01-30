@@ -3,4 +3,4 @@ from flask import current_app as app
 
 @app.route('/')
 def view_userLst():
-    return render_template('datatable_example.html', api='/api/users')
+    return render_template('datatables_example.html', api='/api/users/')
